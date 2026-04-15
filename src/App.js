@@ -3,10 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 // Import images
 import logo from "./assets/logo.jpeg";
-import engine from "./assets/engine.jpeg";
 import safety from "./assets/safety.jpeg";
 import coins from "./assets/coins.jpeg";
-import antique from "./assets/antique.jpeg";
 import antiqueglobe from "./assets/antiqueglobe.jpeg";
 import collage from "./assets/collage.jpeg";
 
