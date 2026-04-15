@@ -139,7 +139,7 @@ function Contact() {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
-    await fetch("http://localhost:5000/send-email", {
+    await fetch("https://arrow-well-server.onrender.com/send-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
