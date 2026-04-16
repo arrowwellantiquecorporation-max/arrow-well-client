@@ -7,6 +7,9 @@ import safety from "./assets/safety.jpeg";
 import coins from "./assets/coins.jpeg";
 import antiqueglobe from "./assets/antiqueglobe.jpeg";
 import collage from "./assets/collage.jpeg";
+import raju from "./assets/raju.jpeg";
+import phani from "./assets/phani.jpeg";
+import bush from "./assets/bush.jpeg";
 
 function Navbar() {
   return (
@@ -105,18 +108,37 @@ function Team() {
 
       {/* Team Members */}
       <div className="grid md:grid-cols-3 gap-6 text-center mb-10">
+        
         <div>
+          <img
+            src={bush}
+            alt="Weshbush"
+            className="w-40 h-40 object-cover rounded-full mx-auto mb-4"
+          />
           <h3 className="text-xl font-semibold">Weshbush</h3>
           <p className="text-gray-400">CEO</p>
         </div>
+
         <div>
+          <img
+            src={phani}
+            alt="Krishna Phani"
+            className="w-40 h-40 object-cover rounded-full mx-auto mb-4"
+          />
           <h3 className="text-xl font-semibold">Krishna Phani</h3>
           <p className="text-gray-400">Financial Head</p>
         </div>
+
         <div>
+          <img
+            src={raju}
+            alt="Rajender Reddy Yellu"
+            className="w-40 h-40 object-cover rounded-full mx-auto mb-4"
+          />
           <h3 className="text-xl font-semibold">Rajender Reddy Yellu</h3>
           <p className="text-gray-400">Indian Metallurgist</p>
         </div>
+
       </div>
 
       {/* Image Grid */}
