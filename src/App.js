@@ -154,29 +154,121 @@ function Team() {
 }
 
 function Contact() {
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [status, setStatus] = React.useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+
+    const form = e.target;
+    const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    await fetch("https://arrow-well-server.onrender.com/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    setIsSubmitting(true);
+    setStatus("");
 
-    alert("Details submitted successfully!");
+    try {
+      const response = await fetch(
+        "https://arrow-well-server.onrender.com/send-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result = await response.json();
+
+      console.log("Server response:", result);
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error || result.message || "Failed to send email"
+        );
+      }
+
+      // Success
+      setStatus("success");
+      form.reset();
+
+    } catch (error) {
+      console.error("Submission error:", error);
+
+      setStatus("error");
+
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 min-h-screen bg-white">
       <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md">
-        <input name="name" placeholder="Name" required className="border p-2" />
-        <input name="email" type="email" placeholder="Email" required className="border p-2" />
-        <input name="phone" placeholder="Phone" className="border p-2" />
-        <textarea name="message" placeholder="Message" className="border p-2" />
-        <button className="bg-blue-500 text-white p-2 rounded">Submit</button>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4 max-w-md"
+      >
+        <input
+          name="name"
+          placeholder="Name"
+          required
+          disabled={isSubmitting}
+          className="border p-2 rounded"
+        />
+
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          disabled={isSubmitting}
+          className="border p-2 rounded"
+        />
+
+        <input
+          name="phone"
+          placeholder="Phone"
+          disabled={isSubmitting}
+          className="border p-2 rounded"
+        />
+
+        <textarea
+          name="message"
+          placeholder="Message"
+          required
+          disabled={isSubmitting}
+          className="border p-2 rounded min-h-[120px]"
+        />
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`p-3 rounded text-white font-semibold transition-all duration-200 ${
+            isSubmitting
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600 active:scale-95"
+          }`}
+        >
+          {isSubmitting ? "Sending..." : "Submit"}
+        </button>
+
+        {/* Success Message */}
+        {status === "success" && (
+          <div className="p-3 rounded bg-green-100 text-green-700 border border-green-300">
+            ✓ Your details have been submitted successfully!
+          </div>
+        )}
+
+        {/* Error Message */}
+        {status === "error" && (
+          <div className="p-3 rounded bg-red-100 text-red-700 border border-red-300">
+            ✕ Something went wrong. Please try again.
+          </div>
+        )}
       </form>
     </div>
   );
